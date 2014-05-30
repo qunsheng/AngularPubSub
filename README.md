@@ -1,0 +1,4 @@
+AngularPubSub
+=============
+
+Angular pubsub example
