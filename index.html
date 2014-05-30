@@ -1,0 +1,41 @@
+<html ng-app="angularexample">
+	<head>
+		<script src="http://code.angularjs.org/1.2.16/angular.min.js"></script>
+		<script type="text/javascript">
+			var angularExample = angular.module('angularexample', []);
+			angularExample.factory("PubSubService", function ($rootScope) {
+			    function notify (data) {
+			        $rootScope.$emit("PubSubService.myEvent", data);
+			    }
+			
+			    function listen (fn) {
+			        $rootScope.$on("PubSubService.myEvent", function (e, data) {
+			            fn(data);
+			        });
+			    }
+			
+			    return {
+			        subscribe: listen,
+			        publish: notify
+			    };
+			});
+			angularExample.controller("MainCtrl", function( $scope, PubSubService) {
+				console.log("try to call pubsub...");
+				
+				PubSubService.subscribe(function(data) {
+				    // event callback code
+				    console.log("got data =====>>  ", data);
+				});
+				
+				PubSubService.publish("testing pub...");
+			});
+
+		</script>
+	</head>
+
+	<body>
+		<div ng-controller="MainCtrl">
+			<h1>Please look at devtool console</h1>
+		</div>
+	</body>
+</html>
